@@ -1,0 +1,13 @@
+[package]
+name = "Notes"
+version = "0.1.0"
+authors = ["Elliot Stokes <elliot.stokes@gmail.com>"]
+
+[dependencies]
+conrod = "0.44"
+piston_window = "0.52.0"
+find_folder = "0.3.0"
+
+[[bin]]
+name = "notes"
+path = "main.rs"
