@@ -10,4 +10,4 @@ find_folder = "0.3.0"
 
 [[bin]]
 name = "notes"
-path = "main.rs"
+path = "src/main.rs"

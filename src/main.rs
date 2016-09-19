@@ -2,11 +2,10 @@
 extern crate find_folder;
 extern crate piston_window;
 
+mod note_manager;
+
 use piston_window::{EventLoop, OpenGL, PistonWindow, UpdateEvent};
-use std::error::Error;
-use std::fs::File;
-use std::io::prelude::*;
-use std::path::Path;
+
 
 widget_ids! {
     struct Ids { master, header, body, footer, text_edit, save_button, reset_button }
@@ -111,7 +110,7 @@ fn set_ui(ref mut ui: conrod::UiCell, ids: &Ids, state: &mut AppState) {
         .label("Save")
         .set(ids.reset_button, ui)
     {
-        save_note(state);
+        note_manager::save_note(&state.text);
     }
 
     for edit in widget::TextEdit::new(&state.text)
@@ -122,24 +121,5 @@ fn set_ui(ref mut ui: conrod::UiCell, ids: &Ids, state: &mut AppState) {
         .set(ids.text_edit, ui)
     {
         state.text = edit.to_string();
-    }
-}
-
-fn save_note(state: &mut AppState) {
-     let path = Path::new("notes/note.not");
-     let display = path.display();
-     let mut file = match File::create(&path) {
-        Err(why) => panic!("couldn't create {}: {}",
-                           display,
-                           why.description()),
-        Ok(file) => file,
-    };
-
-    match file.write_all(state.text.as_bytes()) {
-        Err(why) => {
-            panic!("couldn't write to {}: {}", display,
-                                               why.description())
-        },
-        Ok(_) => println!("successfully wrote to {}", display),
     }
 }
